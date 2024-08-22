@@ -9,9 +9,9 @@ set "BTCZ_ANS_DIR=ans"
 set "BTCZ_FILES_DIR=node"
 set "BTCZ_BLOCKS_DIR=%APPDATA%\BitcoinZ"
 set "BTCZ_ZKSNARK_DIR=%APPDATA%\ZcashParams"
-set "BTCZ_UTILS_DIR=tools"
+set "BTCZ_TOOLS_DIR=tools"
 set "BTCZ_TEMP_DIR=temp"
-for %%d in ("%BTCZ_FILES_DIR%" "%BTCZ_BLOCKS_DIR%" "%BTCZ_ZKSNARK_DIR%" "%BTCZ_UTILS_DIR%" "%BTCZ_TEMP_DIR%") do (
+for %%d in ("%BTCZ_FILES_DIR%" "%BTCZ_BLOCKS_DIR%" "%BTCZ_ZKSNARK_DIR%" "%BTCZ_TOOLS_DIR%" "%BTCZ_TEMP_DIR%") do (
     if not exist "%%d" (
         mkdir "%%d"
         if errorlevel 1 (
@@ -21,9 +21,9 @@ for %%d in ("%BTCZ_FILES_DIR%" "%BTCZ_BLOCKS_DIR%" "%BTCZ_ZKSNARK_DIR%" "%BTCZ_U
     )
 )
 
-set "UNZIP_TOOL=%BTCZ_UTILS_DIR%\7zip.exe"
-set "CURL_TOOL=%BTCZ_UTILS_DIR%\curl.exe"
-set "JQ_FILE=%BTCZ_UTILS_DIR%\jq.exe"
+set "UNZIP_TOOL=%BTCZ_TOOLS_DIR%\7zip.exe"
+set "CURL_TOOL=%BTCZ_TOOLS_DIR%\curl.exe"
+set "JQ_TOOL=%BTCZ_TOOLS_DIR%\jq.exe"
 
 set "BTCZ_CONFIG_FILE=%BTCZ_BLOCKS_DIR%\bitcoinz.conf"
 set "BITCOINZD_FILE=%BTCZ_FILES_DIR%\bitcoinzd.exe"
@@ -369,7 +369,7 @@ if "%choice%"=="1" (
     call src\nodeinfos.bat :NODEINFOS
 )
 if "%choice%"=="2" (
-    call src\blockchaininfos.bat :GETBLOCKCHAININFO
+    call src\blockchaininfo.bat :GETBLOCKCHAININFO
 )
 if "%choice%"=="0" (
     goto NODEPANEL

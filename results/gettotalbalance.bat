@@ -4,7 +4,7 @@
 rem
 setlocal enabledelayedexpansion
 
-%JQ_FILE% -r "to_entries[] | .value" %JSON_DATA_FILE% > %RESULT_FILE%
+%JQ_TOOL% -r "to_entries[] | .value" %JSON_DATA_FILE% > %RESULT_FILE%
 
 rem
 for /f "delims=" %%A in (%RESULT_FILE%) do (
