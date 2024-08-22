@@ -390,6 +390,7 @@ echo                        Wallet
 echo ====================================================
 echo.
 echo -[1]- Total Balances
+echo -[2]- Generate New Address
 echo.
 echo -[0]- Back
 echo.
@@ -399,12 +400,50 @@ set /p choice="Enter your choice: "
 if "%choice%"=="1" (
     call src\balances.bat :BALANCES
 )
+if "%choice%"=="2" (
+    goto NEWADDRESSES
+)
 if "%choice%"=="0" (
     goto NODEPANEL
 )
 
 timeout /t 1 /nobreak >nul
 goto WALLETPANEL
+
+
+:NEWADDRESSES 
+
+cls
+type %BTCZ_ANS_DIR%\btcz_logo.ans
+type %BTCZ_ANS_DIR%\bitcoinz_txt.ans
+echo.
+echo ====================================================
+echo                  Generate Addresses
+echo ====================================================
+echo.
+echo -[1]- Transparent Address (T)
+echo -[2]- Private Address (Z)
+echo.
+echo -[0]- Back
+echo.
+echo =====================
+set /p choice="Enter your choice: "
+
+if "%choice%"=="1" (
+    set "AddressType=transparent"
+    call src\newaddresses.bat :GENERATEADDRESSES
+)
+if "%choice%"=="2" (
+    set "AddressType=private"
+    call src\newaddresses.bat :GENERATEADDRESSES
+)
+if "%choice%"=="0" (
+    goto WALLETPANEL
+)
+
+timeout /t 1 /nobreak >nul
+goto NEWADDRESSES
+
 
 
 
