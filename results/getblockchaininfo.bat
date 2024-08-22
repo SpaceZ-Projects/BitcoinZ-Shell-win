@@ -35,18 +35,18 @@ for /f "tokens=* usebackq" %%A in (
 
 
 rem 
-echo ====================================================
-echo    Chain--------------^| %NODECHAIN%
-echo    Blocks-------------^| %NODEBLOCKS%
-echo    Headers------------^| %NODEHEADRES%
-echo    Best Block---------^| %BESTBLOCKHASH%
-echo    Difficulty---------^| %DIFFICULTY%
-echo    Sync Progress------^| %SYNCPROGRESS%%%
-echo    Chain Work---------^| %CHAINWORK%
-echo    Pruned-------------^| %NODEPRUNED%
-echo    Size on Disk-------^| %SIZEONDISK_CONVERTED% GB
-echo    Commitments--------^| %COMMITMENTS%
-echo ====================================================
+echo    ^| %WHITE_FG%%BLUE_BG% Chain         %RESET% ^| %NODECHAIN%
+echo    ^| %WHITE_FG%%BLUE_BG% Blocks        %RESET% ^| %NODEBLOCKS%
+echo    ^| %WHITE_FG%%BLUE_BG% Headers       %RESET% ^| %NODEHEADRES%
+echo    ^| %WHITE_FG%%BLUE_BG% Best Block    %RESET% ^| %BESTBLOCKHASH%
+echo    ^| %WHITE_FG%%BLUE_BG% Difficulty    %RESET% ^| %DIFFICULTY%
+echo    ^| %WHITE_FG%%BLUE_BG% Sync Progress %RESET% ^| %SYNCPROGRESS%%%
+echo    ^| %WHITE_FG%%BLUE_BG% Chain Work    %RESET% ^| %CHAINWORK%
+echo    ^| %WHITE_FG%%BLUE_BG% Pruned        %RESET% ^| %NODEPRUNED%
+echo    ^| %WHITE_FG%%BLUE_BG% Size on Disk  %RESET% ^| %SIZEONDISK_CONVERTED% GB
+echo    ^| %WHITE_FG%%BLUE_BG% Commitments   %RESET% ^| %COMMITMENTS%
+echo.
+echo ================================================================================
 
 del "%RESULT_FILE%"
 endlocal

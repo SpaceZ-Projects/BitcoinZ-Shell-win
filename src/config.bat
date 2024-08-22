@@ -4,43 +4,49 @@ cls
 type %BTCZ_ANS_DIR%\btcz_logo.ans
 type %BTCZ_ANS_DIR%\bitcoinz_txt.ans
 echo.
-echo ====================================================
-echo                    Config File Maker
-echo ====================================================
+echo ^| %BLACK_FG%%YELLOW_BG% Config Maker %RESET% ^|
+echo.
+echo ================================================================================
+echo                               Config File Maker
+echo ================================================================================
 echo.
 
 rem 
 echo enter the RPC user
-echo =====================
-set /p rpcuser="rpcuser : "
+echo ========================
+set /p rpcuser="%BLACK_FG%%YELLOW_BG% rpcuser %RESET% : "
 
 cls
 type %BTCZ_ANS_DIR%\btcz_logo.ans
 type %BTCZ_ANS_DIR%\bitcoinz_txt.ans
 echo.
-echo ====================================================
-echo                    Config File Maker
-echo ====================================================
+echo ^| %BLACK_FG%%YELLOW_BG% Config Maker %RESET% ^|
+echo.
+echo ================================================================================
+echo                               Config File Maker
+echo ================================================================================
 echo.
 
 rem 
 echo enter the RPC password
-echo =====================
-set /p rpcpassword="rpcpassword : "
+echo ========================
+set /p rpcpassword="%BLACK_FG%%YELLOW_BG% rpcpassword %RESET% : "
 
 cls
 type %BTCZ_ANS_DIR%\btcz_logo.ans
 type %BTCZ_ANS_DIR%\bitcoinz_txt.ans
 echo.
-echo ====================================================
-echo                    Config File Maker
-echo ====================================================
+echo ^| %BLACK_FG%%YELLOW_BG% Config Maker %RESET% ^|
+echo.
+echo ================================================================================
+echo                               Config File Maker
+echo ================================================================================
 echo.
 
 rem
 echo enter the RPC port
-echo =====================
-set /p rpcport="rpcport :"
+echo ========================
+set /p rpcport="%BLACK_FG%%YELLOW_BG% rpcport %RESET% : "
 
 rem
 (
@@ -60,7 +66,7 @@ echo addnode=37.187.76.80:1989
 echo addnode=198.100.154.162:1989
 ) > "%BTCZ_CONFIG_FILE%"
 
-echo bitcoinz.conf has been created in %BTCZ_CONFIG_FILE%
+echo  %GREEN_FG%bitcoinz.conf has been created in %BTCZ_CONFIG_FILE% %RESET%
 echo.
 echo Return to Main Menu...
 timeout /t 2 /nobreak >nul

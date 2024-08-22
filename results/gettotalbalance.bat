@@ -16,12 +16,12 @@ for /f "delims=" %%A in (%RESULT_FILE%) do (
 )
 
 rem 
-echo ====================================================
-echo         Transparent  ^| %TRANSPARENTBALANCES% BTCZ
-echo         Private      ^| %PRIVATEBALANCES% BTCZ
+echo    Transparent  ^| %YELLOW_FG%%TRANSPARENTBALANCES% BTCZ %RESET%
+echo    Private      ^| %CYAN_FG%%PRIVATEBALANCES% BTCZ %RESET%
 echo.
-echo         Total        ^| %TOTALBALANCES% BTCZ
-echo ====================================================
+echo    Total        ^| %TOTALBALANCES% BTCZ
+echo.
+echo ================================================================================
 del "%RESULT_FILE%"
 endlocal
 goto :eof

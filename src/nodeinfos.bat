@@ -5,9 +5,9 @@ cls
 type %BTCZ_ANS_DIR%\btcz_logo.ans
 type %BTCZ_ANS_DIR%\bitcoinz_txt.ans
 echo.
-echo ====================================================
-echo                     Node Infos
-echo ====================================================
+echo ================================================================================
+echo                                   Node Infos
+echo ================================================================================
 echo.
 if exist "%JSON_DATA_FILE%" del "%JSON_DATA_FILE%"
 rem

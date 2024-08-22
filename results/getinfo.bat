@@ -81,23 +81,23 @@ for /f "tokens=1,* delims=:" %%A in ('findstr /r /c:"\"errors\":" "%JSON_DATA_FI
 )
 
 rem
-echo ====================================================
-echo    Version------------^| %NODEVERSION%
-echo    ProtocolVersion----^| %NODEPROTOCOLVERSION%
-echo    WalletVersion------^| %WALLETVERSION%
-echo    Balance------------^| %NODEBALANCE%
-echo    Blocks-------------^| %NODEBLOCKS%
-echo    Timeoffset---------^| %NODETIMEOFFSET%
-echo    Connections--------^| %NODECONNECTIONS%
-echo    Proxy--------------^| %NODEPROXY%
-echo    Difficulty---------^| %DIFFICULTY%
-echo    Testnet------------^| %NODETESTNET%
-echo    Keypoololdest------^| %KEYPOOLOLDEST%
-echo    Keypoolsize--------^| %KEYPOOLSIZE%
-echo    Paytxfee-----------^| %PAYTXFEE%
-echo    Relayfee-----------^| %RELAYFEE%
-echo    Error--------------^| %NODEERRORS%
-echo ====================================================
+echo    ^| %WHITE_FG%%BLUE_BG% Version         %RESET% ^| %NODEVERSION%
+echo    ^| %WHITE_FG%%BLUE_BG% ProtocolVersion %RESET% ^| %NODEPROTOCOLVERSION%
+echo    ^| %WHITE_FG%%BLUE_BG% WalletVersion   %RESET% ^| %WALLETVERSION%
+echo    ^| %WHITE_FG%%BLUE_BG% Balance         %RESET% ^| %NODEBALANCE%
+echo    ^| %WHITE_FG%%BLUE_BG% Blocks          %RESET% ^| %NODEBLOCKS%
+echo    ^| %WHITE_FG%%BLUE_BG% Timeoffset      %RESET% ^| %NODETIMEOFFSET%
+echo    ^| %WHITE_FG%%BLUE_BG% Connections     %RESET% ^| %NODECONNECTIONS%
+echo    ^| %WHITE_FG%%BLUE_BG% Proxy           %RESET% ^| %NODEPROXY%
+echo    ^| %WHITE_FG%%BLUE_BG% Difficulty      %RESET% ^| %DIFFICULTY%
+echo    ^| %WHITE_FG%%BLUE_BG% Testnet         %RESET% ^| %NODETESTNET%
+echo    ^| %WHITE_FG%%BLUE_BG% Keypoololdest   %RESET% ^| %KEYPOOLOLDEST%
+echo    ^| %WHITE_FG%%BLUE_BG% Keypoolsize     %RESET% ^| %KEYPOOLSIZE%
+echo    ^| %WHITE_FG%%BLUE_BG% Paytxfee        %RESET% ^| %PAYTXFEE%
+echo    ^| %WHITE_FG%%BLUE_BG% Relayfee        %RESET% ^| %RELAYFEE%
+echo    ^| %WHITE_FG%%BLUE_BG% Error           %RESET% ^| %NODEERRORS%
+echo.
+echo ================================================================================
 
 
 endlocal
