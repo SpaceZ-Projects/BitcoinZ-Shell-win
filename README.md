@@ -1,4 +1,4 @@
-# BitcoinZ Full Node : Shell Interface
+BitcoinZ Full Node : Shell Interface
 ======
 
 ## Screenshot :

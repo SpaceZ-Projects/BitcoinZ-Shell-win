@@ -200,10 +200,10 @@ rem
 if "%missingFiles%"=="true" (
     timeout /t 1 /nobreak >nul
     echo.
-    echo Downloading %NODE_FILE_NAME%...
+    echo Downloading %GREEN_FG%%NODE_FILE_NAME%%RESET%...
     echo.
     "%CURL_TOOL%" -L -o %BTCZ_FILES_DIR%\%NODE_FILE_NAME% "%BTCZ_DOWNLOAD_LINK%%NODE_FILE_NAME%"
-    echo Downloading Completed...
+    echo Download completed.
     timeout /t 1 /nobreak >nul
     echo Extarting file...
     echo.
@@ -247,13 +247,13 @@ if "%paramsMissing%"=="true" (
     for %%f in (%files%) do (
         set "paramsFile=%BTCZ_ZKSNARK_DIR%\%%f"
         if not exist "!paramsFile!" (
-            echo Downloading %%f...
+            echo Downloading %CYAN_FG%%%f%RESET%...
             timeout /t 1 /nobreak >nul
             "%CURL_TOOL%" --progress-bar -o "!paramsFile!" "%ZK_DOWNLOAD_LINK%%%f"
         )
     )
     echo.
-    echo Download completed. Please check the files.
+    echo Download completed.
     endlocal
     timeout /t 3 /nobreak >nul
     goto MAINMENU
@@ -446,7 +446,8 @@ echo                                      Wallet
 echo ================================================================================
 echo.
 echo  [%CYAN_FG%1%RESET%] ^| Total Balances
-echo  [%CYAN_FG%2%RESET%] ^| Generate New Address
+echo  [%CYAN_FG%2%RESET%] ^| Addresses List
+echo  [%CYAN_FG%3%RESET%] ^| Generate New Address
 echo.
 echo  [%RED_FG%0%RESET%] ^| Back
 echo.
@@ -460,7 +461,11 @@ if "%choice%"=="1" (
 )
 
 if "%choice%"=="2" (
-    goto NEWADDRESSES
+    goto ADDRESSESLISTPANEL
+)
+
+if "%choice%"=="3" (
+    goto NEWADDRESSESPANEL
 )
 
 if "%choice%"=="0" (
@@ -471,7 +476,52 @@ timeout /t 1 /nobreak >nul
 goto WALLETPANEL
 
 
-:NEWADDRESSES 
+
+:ADDRESSESLISTPANEL
+
+setlocal enabledelayedexpansion
+cls
+type %BTCZ_ANS_DIR%\btcz_logo.ans
+type %BTCZ_ANS_DIR%\bitcoinz_txt.ans
+echo.
+echo ^| %BLACK_FG%%YELLOW_BG% Manage Wallet %RESET% ^|
+echo.
+echo ================================================================================
+echo                                  Addresses List
+echo ================================================================================
+echo.
+echo  [%CYAN_FG%1%RESET%] ^| Transparent Addresses (%YELLOW_FG%T%RESET%)
+echo  [%CYAN_FG%2%RESET%] ^| Private Addresses (%CYAN_FG%Z%RESET%)
+echo.
+echo  [%RED_FG%0%RESET%] ^| Back
+echo.
+echo ========================
+set /p choice="| %BLACK_FG%%YELLOW_BG% Enter your choice %RESET% : "
+
+set "choice=%choice: =%"
+
+if "%choice%"=="1" (
+    set "ADDRESS_TYPE=transparent"
+    call src\addresseslist.bat :ADDRESSESLIST
+)
+
+if "%choice%"=="2" (
+    set "ADDRESS_TYPE=private"
+    call src\addresseslist.bat :ADDRESSESLIST
+)
+
+if "%choice%"=="0" (
+    goto WALLETPANEL
+)
+
+timeout /t 1 /nobreak >nul
+goto ADDRESSESLISTPANEL
+
+
+
+
+:NEWADDRESSESPANEL 
+
 setlocal enabledelayedexpansion
 cls
 type %BTCZ_ANS_DIR%\btcz_logo.ans
@@ -508,7 +558,7 @@ if "%choice%"=="0" (
 )
 
 timeout /t 1 /nobreak >nul
-goto NEWADDRESSES
+goto NEWADDRESSESPANEL
 
 
 
