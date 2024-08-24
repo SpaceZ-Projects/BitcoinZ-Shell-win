@@ -64,6 +64,7 @@ goto MANAGEADDRESS
 
 
 :MANAGEADDRESS
+setlocal enabledelayedexpansion
 cls
 
 type "%BTCZ_ANS_DIR%\btcz_logo.ans"
@@ -90,6 +91,11 @@ if "%choice%"=="1" (
     goto GETBALANCE
 )
 
+if "%choice%"=="2" (
+    del "%JSON_DATA_FILE%"
+    goto SHOWPRIVATEKEY
+)
+
 if "%choice%"=="0" (
     del "%JSON_DATA_FILE%"
     goto ADDRESSESLIST
@@ -101,9 +107,11 @@ if "%choice%"=="0" (
     goto MANAGEADDRESS
 )
 
+
+
 :GETBALANCE
+setlocal enabledelayedexpansion
 cls
-echo %SELECTED_ADDRESS%
 type "%BTCZ_ANS_DIR%\btcz_logo.ans"
 type "%BTCZ_ANS_DIR%\bitcoinz_txt.ans"
 echo.
@@ -129,4 +137,64 @@ echo.
 
 pause
 endlocal
-goto ADDRESSESLIST
+goto MANAGEADDRESS
+
+
+
+:SHOWPRIVATEKEY
+setlocal enabledelayedexpansion
+cls
+type "%BTCZ_ANS_DIR%\btcz_logo.ans"
+type "%BTCZ_ANS_DIR%\bitcoinz_txt.ans"
+echo.
+echo ^| %BLACK_FG%%YELLOW_BG% Manage Address %RESET% ^|
+echo.
+echo ================================================================================
+echo  Selected Address : %ADDRESS_COLOR%%SELECTED_ADDRESS%%RESET%
+echo ================================================================================
+echo.
+
+rem
+if "%ADDRESS_TYPE%"=="transparent" (
+    start "" /B "%BITCOINZCLI_FILE%" dumpprivkey "%SELECTED_ADDRESS%" > "%JSON_DATA_FILE%"
+) else if "%ADDRESS_TYPE%"=="private" (
+    start "" /B "%BITCOINZCLI_FILE%" z_exportkey "%SELECTED_ADDRESS%" > "%JSON_DATA_FILE%"
+)
+
+timeout /t 1 /nobreak >nul
+
+rem
+for /f "usebackq tokens=*" %%i in ("%JSON_DATA_FILE%") do (
+    set "ADDRESSPRIVATEKEY=%%i"
+)
+
+echo    Key : [%BLACK_FG%%BLACK_BG%%ADDRESSPRIVATEKEY%%RESET%]
+echo.
+echo  [%CYAN_FG%1%RESET%] ^| ^Copy Clipboard
+echo.
+echo  [%RED_FG%0%RESET%] ^| Back
+echo.
+echo ==========================
+set /p "choice=| %BLACK_FG%%YELLOW_BG% Enter your choice %RESET% : "
+
+set "choice=%choice: =%"
+
+if "%choice%"=="1" (
+    type "%JSON_DATA_FILE%" | clip
+    echo.
+    echo  %GREEN_FG%Private key copied to Clipboard !%RESET%
+    timeout /t 2 /nobreak >nul
+)
+
+if "%choice%"=="0" (
+    set "ADDRESSPRIVATEKEY="
+    del "%JSON_DATA_FILE%"
+    goto MANAGEADDRESS
+)
+
+set "ADDRESSPRIVATEKEY="
+del "%JSON_DATA_FILE%"
+
+
+endlocal
+goto MANAGEADDRESS

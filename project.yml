@@ -1,0 +1,10 @@
+Version: 0.1.0.0
+CompanyName: SpaceZ
+FileDescription: BitcoinZ Full Node Wallet | Shell Interface
+InternalName: BitcoinZ Full Node Wallet
+LegalCopyright: © BTCZCommunity. All rights reserved.
+OriginalFilename: BTCZ-Shell.exe
+ProductName: BTCZ-Shell
+Translation:
+- langID: 0
+    charsetID: 1200

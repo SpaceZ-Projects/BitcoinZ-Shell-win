@@ -8,14 +8,14 @@ rem
 set "BASEDIR=%~dp0"
 set "SOURCE_FILES=%BASEDIR%src"
 set "BTCZ_ANS_DIR=%BASEDIR%ans"
-set "BTCZ_FILES_DIR=%BASEDIR%node"
+set "BTCZ_FILES_DIR=node"
 set "BTCZ_BLOCKS_DIR=%APPDATA%\BitcoinZ"
 set "BTCZ_ZKSNARK_DIR=%APPDATA%\ZcashParams"
 set "BTCZ_TOOLS_DIR=%BASEDIR%tools"
 set "BTCZ_TEMP_DIR=temp"
 
 rem
-for %%d in ("%BTCZ_BLOCKS_DIR%" "%BTCZ_ZKSNARK_DIR%" "%BTCZ_TEMP_DIR%") do (
+for %%d in ("%BTCZ_FILES_DIR%" "%BTCZ_BLOCKS_DIR%" "%BTCZ_ZKSNARK_DIR%" "%BTCZ_TEMP_DIR%") do (
     if not exist "%%d" (
         mkdir "%%d"
         if errorlevel 1 (
