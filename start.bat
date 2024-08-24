@@ -1,19 +1,21 @@
 @echo off
 setlocal enabledelayedexpansion
 
-title BitcoinZ Full Node : Shell interface
+title BitcoinZ Full Node : Shell Interface
 mode con: cols=120 lines=55
 
 rem
-set "BTCZ_ANS_DIR=ans"
-set "BTCZ_FILES_DIR=node"
+set "BASEDIR=%~dp0"
+set "SOURCE_FILES=%BASEDIR%src"
+set "BTCZ_ANS_DIR=%BASEDIR%ans"
+set "BTCZ_FILES_DIR=%BASEDIR%node"
 set "BTCZ_BLOCKS_DIR=%APPDATA%\BitcoinZ"
 set "BTCZ_ZKSNARK_DIR=%APPDATA%\ZcashParams"
-set "BTCZ_TOOLS_DIR=tools"
+set "BTCZ_TOOLS_DIR=%BASEDIR%tools"
 set "BTCZ_TEMP_DIR=temp"
 
 rem
-for %%d in ("%BTCZ_FILES_DIR%" "%BTCZ_BLOCKS_DIR%" "%BTCZ_ZKSNARK_DIR%" "%BTCZ_TOOLS_DIR%" "%BTCZ_TEMP_DIR%") do (
+for %%d in ("%BTCZ_BLOCKS_DIR%" "%BTCZ_ZKSNARK_DIR%" "%BTCZ_TEMP_DIR%") do (
     if not exist "%%d" (
         mkdir "%%d"
         if errorlevel 1 (
@@ -128,7 +130,7 @@ echo  [%CYAN_FG%3%RESET%] ^| Join BTCZ Community
 echo.
 echo  [%RED_FG%0%RESET%] ^| %WHITE_FG%%RED_BG%Stop/Exit%RESET%
 echo.
-echo ========================
+echo ==========================
 set /p choice="| %BLACK_FG%%YELLOW_BG% Enter your choice %RESET% : "
 
 set "choice=%choice: =%"
@@ -282,14 +284,14 @@ if exist "%BTCZ_CONFIG_FILE%" (
     echo  %RED_FG%Error: bitcoinz.conf file is missing in %BTCZ_BLOCKS_DIR%. %RESET%
     echo.
     echo ^| Do you want to create bitcoinz.conf file ? (y/n)
-    echo ========================
+    echo ==========================
     set /p choice="| %BLACK_FG%%YELLOW_BG% Enter your choice %RESET% : "
 
     set "choice=%choice: =%"
 
     if /i "%choice%"=="y" (
         echo Creating bitcoinz.conf file...
-        call src\config.bat :MAKECONFIG
+        call %SOURCE_FILES%\config.bat :MAKECONFIG
         goto MAINMENU
     ) else (
         echo Cancelled....
@@ -342,8 +344,7 @@ if errorlevel 1 (
 )
 set "BTCZ_STATUS=true"
 echo.
-call results\getinfo.bat :GETINFO
-del "%JSON_DATA_FILE%"
+call %SOURCE_FILES%\nodeinfos.bat :NODEINFOS
 echo.
 echo  %WHITE_FG%%GREEN_BG% BitcoinZ node is running now... %RESET%
 echo.
@@ -370,7 +371,7 @@ echo  [%CYAN_FG%3%RESET%] ^| CashOut
 echo.
 echo  [%RED_FG%0%RESET%] ^| Return to Main Menu
 echo.
-echo ========================
+echo ==========================
 set /p choice="| %BLACK_FG%%YELLOW_BG% Enter your choice %RESET% : "
 
 set "choice=%choice: =%"
@@ -411,17 +412,18 @@ echo  [%CYAN_FG%2%RESET%] ^| Blockchain Infos
 echo.
 echo  [%RED_FG%0%RESET%] ^| Back
 echo.
-echo ========================
+echo ==========================
 set /p choice="| %BLACK_FG%%YELLOW_BG% Enter your choice %RESET% : "
 
 set "choice=%choice: =%"
 
 if "%choice%"=="1" (
-    call src\nodeinfos.bat :NODEINFOS
+    call %SOURCE_FILES%\nodeinfos.bat :NODEINFOS
+    pause
 )
 
 if "%choice%"=="2" (
-    call src\blockchaininfo.bat :GETBLOCKCHAININFO
+    call %SOURCE_FILES%\blockchaininfos.bat :GETBLOCKCHAININFO
 )
 
 if "%choice%"=="0" (
@@ -451,13 +453,13 @@ echo  [%CYAN_FG%3%RESET%] ^| Generate New Address
 echo.
 echo  [%RED_FG%0%RESET%] ^| Back
 echo.
-echo ========================
+echo ==========================
 set /p choice="| %BLACK_FG%%YELLOW_BG% Enter your choice %RESET% : "
 
 set "choice=%choice: =%"
 
 if "%choice%"=="1" (
-    call src\balances.bat :BALANCES
+    call %SOURCE_FILES%\balances.bat :BALANCES
 )
 
 if "%choice%"=="2" (
@@ -495,19 +497,19 @@ echo  [%CYAN_FG%2%RESET%] ^| Private Addresses (%CYAN_FG%Z%RESET%)
 echo.
 echo  [%RED_FG%0%RESET%] ^| Back
 echo.
-echo ========================
+echo ==========================
 set /p choice="| %BLACK_FG%%YELLOW_BG% Enter your choice %RESET% : "
 
 set "choice=%choice: =%"
 
 if "%choice%"=="1" (
     set "ADDRESS_TYPE=transparent"
-    call src\addresseslist.bat :ADDRESSESLIST
+    call %SOURCE_FILES%\addresseslist.bat :ADDRESSESLIST
 )
 
 if "%choice%"=="2" (
     set "ADDRESS_TYPE=private"
-    call src\addresseslist.bat :ADDRESSESLIST
+    call %SOURCE_FILES%\addresseslist.bat :ADDRESSESLIST
 )
 
 if "%choice%"=="0" (
@@ -538,19 +540,19 @@ echo  [%CYAN_FG%2%RESET%] ^| Private Address (%CYAN_FG%Z%RESET%)
 echo.
 echo  [%RED_FG%0%RESET%] ^| Back
 echo.
-echo ========================
+echo ==========================
 set /p choice="| %BLACK_FG%%YELLOW_BG% Enter your choice %RESET% : "
 
 set "choice=%choice: =%"
 
 if "%choice%"=="1" (
     set "ADDRESS_TYPE=transparent"
-    call src\newaddresses.bat :GENERATEADDRESSES
+    call %SOURCE_FILES%\newaddresses.bat :GENERATEADDRESSES
 )
 
 if "%choice%"=="2" (
     set "ADDRESS_TYPE=private"
-    call src\newaddresses.bat :GENERATEADDRESSES
+    call %SOURCE_FILES%\newaddresses.bat :GENERATEADDRESSES
 )
 
 if "%choice%"=="0" (
@@ -583,7 +585,7 @@ echo  [%CYAN_FG%5%RESET%] ^| Reddit
 echo.
 echo  [%RED_FG%0%RESET%] ^| Return to Main Menu
 echo.
-echo ========================
+echo ==========================
 set /p choice="| %BLACK_FG%%YELLOW_BG% Enter your choice %RESET% : "
 
 set "choice=%choice: =%"

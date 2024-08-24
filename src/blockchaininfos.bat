@@ -1,11 +1,22 @@
 
-
-:GETBLOCKCHAININFO
-
-rem
+:BLOCKCHAININFOS
 setlocal enabledelayedexpansion
 
+cls
+type %BTCZ_ANS_DIR%\btcz_logo.ans
+type %BTCZ_ANS_DIR%\bitcoinz_txt.ans
+echo.
+echo ================================================================================
+echo                                Blockchain Infos
+echo ================================================================================
+echo.
+if exist "%JSON_DATA_FILE%" del "%JSON_DATA_FILE%"
+rem
+start "" /B "%BITCOINZCLI_FILE%" getblockchaininfo > "%JSON_DATA_FILE%"
+timeout /t 1 /nobreak >nul
+
 %JQ_TOOL% -r "to_entries[] | .value" %JSON_DATA_FILE% > %RESULT_FILE%
+del "%JSON_DATA_FILE%"
 
 rem
 for /f "delims=" %%A in (%RESULT_FILE%) do (
@@ -47,6 +58,9 @@ echo    ^| %WHITE_FG%%BLUE_BG% Size on Disk  %RESET% ^| %SIZEONDISK_CONVERTED% G
 echo    ^| %WHITE_FG%%BLUE_BG% Commitments   %RESET% ^| %COMMITMENTS%
 echo.
 echo ================================================================================
+echo.
+
+pause
 
 del "%RESULT_FILE%"
 endlocal

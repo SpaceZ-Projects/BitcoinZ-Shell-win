@@ -2,6 +2,8 @@
 
 :GENERATEADDRESSES
 
+setlocal enabledelayedexpansion
+
 cls
 
 type "%BTCZ_ANS_DIR%\btcz_logo.ans"
@@ -42,6 +44,7 @@ echo  %ADDRESS_COLOR%%NEWADDRESS_INPUT%%RESET%
 echo.
 echo ================================================================================
 
-del "%JSON_DATA_FILE%"
 pause
+
+del "%JSON_DATA_FILE%"
 goto :eof

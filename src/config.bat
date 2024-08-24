@@ -13,7 +13,7 @@ echo.
 
 rem 
 echo enter the RPC user
-echo ========================
+echo ==========================
 set /p rpcuser="%BLACK_FG%%YELLOW_BG% rpcuser %RESET% : "
 
 cls
@@ -29,7 +29,7 @@ echo.
 
 rem 
 echo enter the RPC password
-echo ========================
+echo ==========================
 set /p rpcpassword="%BLACK_FG%%YELLOW_BG% rpcpassword %RESET% : "
 
 cls
@@ -45,7 +45,7 @@ echo.
 
 rem
 echo enter the RPC port
-echo ========================
+echo ==========================
 set /p rpcport="%BLACK_FG%%YELLOW_BG% rpcport %RESET% : "
 
 rem
