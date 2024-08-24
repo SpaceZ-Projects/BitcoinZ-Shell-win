@@ -1,2 +1,5 @@
+/env
 /node
 /temp
+/build
+/dist
