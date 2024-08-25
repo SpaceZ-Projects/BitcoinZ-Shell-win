@@ -5,7 +5,7 @@ echo Creating a virtual environment
 python -m venv env
 
 echo Activating the virtual environment
-call venv\Scripts\activate.bat
+call env\Scripts\activate.bat
 
 echo Installing PyInstaller
 pip install PyInstaller
