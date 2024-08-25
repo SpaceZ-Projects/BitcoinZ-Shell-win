@@ -28,9 +28,21 @@ for /f "delims=" %%A in (%RESULT_FILE%) do (
     if !COUNT! == 3 set "TOTALBALANCES=!LINE!"
 )
 
+rem
+start "" /B "%BITCOINZCLI_FILE%" getunconfirmedbalance > "%JSON_DATA_FILE%"
+timeout /t 1 /nobreak >nul
+
+rem
+for /f "usebackq tokens=*" %%i in ("%JSON_DATA_FILE%") do (
+    set "UNCONFIRMEDBALANCE=%%i"
+)
+
+del "%JSON_DATA_FILE%"
+
 rem 
 echo    Transparent  ^| %YELLOW_FG%%TRANSPARENTBALANCES% BTCZ %RESET%
 echo    Private      ^| %CYAN_FG%%PRIVATEBALANCES% BTCZ %RESET%
+echo    Unconfrimed  ^| %RED_FG%%UNCONFIRMEDBALANCE%%RESET% BTCZ
 echo.
 echo    Total        ^| %TOTALBALANCES% BTCZ
 echo.
