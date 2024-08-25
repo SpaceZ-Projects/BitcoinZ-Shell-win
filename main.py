@@ -2,7 +2,10 @@ import subprocess
 import os
 
 def run_batch_file(file_path):
-    subprocess.run([file_path], shell=True, check=True)
+    try:
+        subprocess.run([file_path], shell=True, check=True)
+    except subprocess.CalledProcessError:
+        pass
 
 if __name__ == "__main__":
     

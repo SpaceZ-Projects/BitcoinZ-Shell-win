@@ -2,17 +2,17 @@
 setlocal enabledelayedexpansion
 
 title BitcoinZ Full Node : Shell Interface
-mode con: cols=120 lines=55
+mode con: cols=100 lines=55
 
 rem
 set "BASEDIR=%~dp0"
 set "SOURCE_FILES=%BASEDIR%src"
 set "BTCZ_ANS_DIR=%BASEDIR%ans"
-set "BTCZ_FILES_DIR=node"
+set "BTCZ_FILES_DIR=%LOCALAPPDATA%\BTCZ-Shell"
 set "BTCZ_BLOCKS_DIR=%APPDATA%\BitcoinZ"
 set "BTCZ_ZKSNARK_DIR=%APPDATA%\ZcashParams"
 set "BTCZ_TOOLS_DIR=%BASEDIR%tools"
-set "BTCZ_TEMP_DIR=temp"
+set "BTCZ_TEMP_DIR=%TEMP%\BTCZ-Temp"
 
 rem
 for %%d in ("%BTCZ_FILES_DIR%" "%BTCZ_BLOCKS_DIR%" "%BTCZ_ZKSNARK_DIR%" "%BTCZ_TEMP_DIR%") do (
@@ -121,7 +121,7 @@ echo.
 echo ^| %BLACK_FG%%YELLOW_BG% Main Menu %RESET% ^|
 echo.
 echo ================================================================================
-echo                   %YELLOW_FG%BitcoinZ Full Node : Shell Interface%RESET% %CYAN_BG%%BLACK_FG%v0.1%RESET%
+echo                   %YELLOW_FG%BitcoinZ Full Node : Shell Interface%RESET% %CYAN_BG%%BLACK_FG%v0.2%RESET%
 echo ================================================================================
 echo.
 echo  [%CYAN_FG%1%RESET%] ^| ^Start BitcoinZ
@@ -323,7 +323,7 @@ type %BTCZ_ANS_DIR%\btcz_logo.ans
 type %BTCZ_ANS_DIR%\bitcoinz_txt.ans
 echo.
 echo ================================================================================
-echo                                  Node Status
+echo                                   Node Status
 echo ================================================================================
 
 if not exist "%BTCZ_TEMP_DIR%" mkdir "%BTCZ_TEMP_DIR%"
@@ -342,12 +342,15 @@ if errorlevel 1 (
     timeout /t 3 /nobreak >nul
     goto NODESTATUS
 )
+
 set "BTCZ_STATUS=true"
-echo.
+
 call %SOURCE_FILES%\nodeinfos.bat :NODEINFOS
+
 echo.
 echo  %WHITE_FG%%GREEN_BG% BitcoinZ node is running now... %RESET%
 echo.
+
 timeout /t 5 /nobreak >nul
 goto MAINMENU
 
@@ -450,6 +453,7 @@ echo.
 echo  [%CYAN_FG%1%RESET%] ^| Total Balances
 echo  [%CYAN_FG%2%RESET%] ^| Addresses List
 echo  [%CYAN_FG%3%RESET%] ^| Generate New Address
+echo  [%CYAN_FG%4%RESET%] ^| Import Key
 echo.
 echo  [%RED_FG%0%RESET%] ^| Back
 echo.
@@ -468,6 +472,10 @@ if "%choice%"=="2" (
 
 if "%choice%"=="3" (
     goto NEWADDRESSESPANEL
+)
+
+if "%choice%"=="4" (
+    call %SOURCE_FILES%\importkey.bat
 )
 
 if "%choice%"=="0" (
