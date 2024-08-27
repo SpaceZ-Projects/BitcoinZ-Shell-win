@@ -38,8 +38,8 @@ set "BITCOINZTX_FILE=%BTCZ_FILES_DIR%\bitcoinz-tx.exe"
 set "JSON_DATA_FILE=%BTCZ_TEMP_DIR%\data.json"
 set "RESULT_FILE=%BTCZ_TEMP_DIR%\result.json"
 
-set "BTCZ_DOWNLOAD_LINK=https://github.com/btcz/bitcoinz/releases/download/2.0.9-rc2/"
-set "NODE_FILE_NAME=bitcoinz-2.0.9-RC2-win64.zip"
+set "BTCZ_DOWNLOAD_LINK=https://github.com/btcz/bitcoinz/releases/download/2.0.10/"
+set "NODE_FILE_NAME=bitcoinz-2.0.10-win64.zip"
 
 set "ZK_DOWNLOAD_LINK=https://d.btcz.rocks/"
 
@@ -159,11 +159,14 @@ if "%choice%"=="2" (
 
 if "%choice%"=="3" goto SOCIALLINKS
 
-if "%choice%"=="0" goto END
-
-echo Invalid choice. Please select a valid option.
-timeout /t 2 /nobreak >nul
-goto MAINMENU
+if "%choice%"=="0" (
+    goto END
+) else (
+    echo.
+    echo Invalid selection. Please enter a valid number.
+    timeout /t 2 /nobreak >nul
+    goto MAINMENU
+)
 
 
 :VERIFYNODE
@@ -387,13 +390,18 @@ if "%choice%"=="2" (
     goto WALLETPANEL
 )
 
-if "%choice%"=="0" (
-    goto MAINMENU
+if "%choice%"=="3" (
+    goto CASHOUTPANEL
 )
 
-
-timeout /t 1 /nobreak >nul
-goto NODEPANEL
+if "%choice%"=="0" (
+    goto MAINMENU
+) else (
+    echo.
+    echo Invalid selection. Please enter a valid number.
+    timeout /t 2 /nobreak >nul
+    goto NODEPANEL
+)
 
 
 
@@ -431,10 +439,61 @@ if "%choice%"=="2" (
 
 if "%choice%"=="0" (
     goto NODEPANEL
+) else (
+    echo.
+    echo Invalid selection. Please enter a valid number.
+    timeout /t 2 /nobreak >nul
+    goto CONTROLPANEL
 )
 
-timeout /t 1 /nobreak >nul
-goto CONTROLPANEL
+
+
+
+:CASHOUTPANEL
+
+setlocal enabledelayedexpansion
+cls
+type %BTCZ_ANS_DIR%\btcz_logo.ans
+type %BTCZ_ANS_DIR%\bitcoinz_txt.ans
+echo.
+echo ^| %BLACK_FG%%YELLOW_BG% CashOut %RESET% ^|
+echo.
+echo ================================================================================
+echo                                     CashOut
+echo ================================================================================
+echo.
+
+echo  [%CYAN_FG%1%RESET%] ^| Send From Main Account
+echo  [%CYAN_FG%2%RESET%] ^| Send From T Addresses
+echo  [%CYAN_FG%3%RESET%] ^| Send From Z Addresses
+echo.
+echo  [%RED_FG%0%RESET%] ^| Back
+echo.
+echo ==========================
+set /p choice="| %BLACK_FG%%YELLOW_BG% Enter your choice %RESET% : "
+
+set "choice=%choice: =%"
+
+if "%choice%"=="1" (
+    set "SEND_FROM=main_account"
+) else if "%choice%"=="2" (
+    set "SEND_FROM=transparent"
+) else if "%choice%"=="3" (
+    set "SEND_FROM=z_address"
+) else if "%choice%"=="0" (
+    goto NODEPANEL
+) else (
+    echo.
+    echo Invalid selection. Please enter a valid number.
+    timeout /t 2 /nobreak >nul
+    goto CASHOUTPANEL
+)
+
+call %SOURCE_FILES%\cashout.bat :CASHOUTOPERATION
+
+goto CASHOUTPANEL
+
+
 
 
 
@@ -480,10 +539,12 @@ if "%choice%"=="4" (
 
 if "%choice%"=="0" (
     goto NODEPANEL
+) else (
+    echo.
+    echo Invalid selection. Please enter a valid number.
+    timeout /t 2 /nobreak >nul
+    goto WALLETPANEL
 )
-
-timeout /t 1 /nobreak >nul
-goto WALLETPANEL
 
 
 
@@ -522,10 +583,12 @@ if "%choice%"=="2" (
 
 if "%choice%"=="0" (
     goto WALLETPANEL
+) else (
+    echo.
+    echo Invalid selection. Please enter a valid number.
+    timeout /t 2 /nobreak >nul
+    goto ADDRESSESLISTPANEL
 )
-
-timeout /t 1 /nobreak >nul
-goto ADDRESSESLISTPANEL
 
 
 
@@ -565,10 +628,12 @@ if "%choice%"=="2" (
 
 if "%choice%"=="0" (
     goto WALLETPANEL
+) else (
+    echo.
+    echo Invalid selection. Please enter a valid number.
+    timeout /t 2 /nobreak >nul
+    goto NEWADDRESSESPANEL
 )
-
-timeout /t 1 /nobreak >nul
-goto NEWADDRESSESPANEL
 
 
 
@@ -633,11 +698,13 @@ if "%choice%"=="5" (
     goto SOCIALLINKS
 )
 
-if "%choice%"=="0" goto MAINMENU
-
-echo Invalid choice. Please select a valid option.
-timeout /t 2 /nobreak >nul
-goto SOCIALLINKS
+if "%choice%"=="0" (
+    goto MAINMENU
+) else (
+    echo Invalid choice. Please select a valid option.
+    timeout /t 2 /nobreak >nul
+    goto SOCIALLINKS
+)
 
 
 
