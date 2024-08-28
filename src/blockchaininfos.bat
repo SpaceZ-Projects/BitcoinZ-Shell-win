@@ -66,5 +66,4 @@ echo.
 pause
 
 del "%RESULT_FILE%"
-endlocal
 goto :eof

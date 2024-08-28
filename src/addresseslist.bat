@@ -49,9 +49,7 @@ if "%choice%"=="0" (
     del "%JSON_DATA_FILE%"
     endlocal
     goto :eof
-)
-
-if not defined address[%choice%] (
+) else if not defined address[%choice%] (
     echo.
     echo Invalid selection. Please enter a valid number.
     timeout /t 2 /nobreak >nul
@@ -89,17 +87,12 @@ set "choice=%choice: =%"
 if "%choice%"=="1" (
     del "%JSON_DATA_FILE%"
     goto GETBALANCE
-)
-
-if "%choice%"=="2" (
+) else if "%choice%"=="2" (
     del "%JSON_DATA_FILE%"
     goto SHOWPRIVATEKEY
-)
-
-if "%choice%"=="0" (
+) else if "%choice%"=="0" (
     del "%JSON_DATA_FILE%"
     goto ADDRESSESLIST
-
 ) else (
     echo.
     echo Invalid selection. Please enter a valid number.
@@ -184,9 +177,7 @@ if "%choice%"=="1" (
     echo.
     echo  %GREEN_FG%Private key copied to Clipboard !%RESET%
     timeout /t 2 /nobreak >nul
-)
-
-if "%choice%"=="0" (
+) else if "%choice%"=="0" (
     set "ADDRESSPRIVATEKEY="
     del "%JSON_DATA_FILE%"
     goto MANAGEADDRESS
@@ -196,5 +187,4 @@ set "ADDRESSPRIVATEKEY="
 del "%JSON_DATA_FILE%"
 
 
-endlocal
 goto MANAGEADDRESS

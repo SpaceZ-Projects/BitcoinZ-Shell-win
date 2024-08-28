@@ -26,17 +26,12 @@ set "choice=%choice: =%"
 if "%choice%"=="1" (
     set "KEY_TYPE=transparent"
     goto IMPORTOPERATION
-)
-
-if "%choice%"=="2" (
+) else if "%choice%"=="2" (
     set "KEY_TYPE=private"
     goto IMPORTOPERATION
-)
-
-if "%choice%"=="0" (
+) else if "%choice%"=="0" (
     endlocal
     goto :eof
-
 ) else (
     echo.
     echo Invalid selection. Please enter a valid number.
@@ -71,5 +66,4 @@ timeout /t 1 /nobreak >nul
 set "privatekey="
 
 pause
-endlocal
 goto IMPORTPRIVATEKEY

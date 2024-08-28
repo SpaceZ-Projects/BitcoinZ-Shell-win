@@ -8,7 +8,7 @@ rem
 set "BASEDIR=%~dp0"
 set "SOURCE_FILES=%BASEDIR%src"
 set "BTCZ_ANS_DIR=%BASEDIR%ans"
-set "BTCZ_FILES_DIR=%LOCALAPPDATA%\BTCZ-Shell"
+set "BTCZ_FILES_DIR=%LOCALAPPDATA%\BTCZCommunity\BTCZ-Shell"
 set "BTCZ_BLOCKS_DIR=%APPDATA%\BitcoinZ"
 set "BTCZ_ZKSNARK_DIR=%APPDATA%\ZcashParams"
 set "BTCZ_TOOLS_DIR=%BASEDIR%tools"
@@ -144,9 +144,7 @@ if "%choice%"=="1" (
         timeout /t 2 /nobreak >nul
         goto MAINMENU
     )
-)
-
-if "%choice%"=="2" (
+) else if "%choice%"=="2" (
     if /i "%BTCZ_STATUS%"=="false" (
         echo.
         echo  %BLACK_FG%%RED_BG% BitcoinZ server is offline... %RESET%
@@ -155,11 +153,9 @@ if "%choice%"=="2" (
     ) else (
         goto NODEPANEL
     )
-)
-
-if "%choice%"=="3" goto SOCIALLINKS
-
-if "%choice%"=="0" (
+) else if "%choice%"=="3" ( 
+    goto SOCIALLINKS
+) else if "%choice%"=="0" (
     goto END
 ) else (
     echo.
@@ -220,7 +216,6 @@ if "%missingFiles%"=="true" (
 )
 
 timeout /t 1 /nobreak >nul
-endlocal
 goto VERIFYPARAMS
 
 
@@ -259,7 +254,6 @@ if "%paramsMissing%"=="true" (
     )
     echo.
     echo Download completed.
-    endlocal
     timeout /t 3 /nobreak >nul
     goto MAINMENU
 ) else (
@@ -302,7 +296,6 @@ if exist "%BTCZ_CONFIG_FILE%" (
         goto MAINMENU
     )
 )
-endlocal
 
 
 :STARTNODE
@@ -384,17 +377,11 @@ set "choice=%choice: =%"
 
 if "%choice%"=="1" (
     goto CONTROLPANEL
-)
-
-if "%choice%"=="2" (
+) else if "%choice%"=="2" (
     goto WALLETPANEL
-)
-
-if "%choice%"=="3" (
+) else if "%choice%"=="3" (
     goto CASHOUTPANEL
-)
-
-if "%choice%"=="0" (
+) else if "%choice%"=="0" (
     goto MAINMENU
 ) else (
     echo.
@@ -407,6 +394,7 @@ if "%choice%"=="0" (
 
 
 :CONTROLPANEL
+
 setlocal enabledelayedexpansion
 cls
 type %BTCZ_ANS_DIR%\btcz_logo.ans
@@ -431,13 +419,9 @@ set "choice=%choice: =%"
 if "%choice%"=="1" (
     call %SOURCE_FILES%\nodeinfos.bat :NODEINFOS
     pause
-)
-
-if "%choice%"=="2" (
+) else if "%choice%"=="2" (
     call %SOURCE_FILES%\blockchaininfos.bat :GETBLOCKCHAININFO
-)
-
-if "%choice%"=="0" (
+) else if "%choice%"=="0" (
     goto NODEPANEL
 ) else (
     echo.
@@ -445,6 +429,8 @@ if "%choice%"=="0" (
     timeout /t 2 /nobreak >nul
     goto CONTROLPANEL
 )
+
+goto CONTROLPANEL
 
 
 
@@ -479,7 +465,7 @@ if "%choice%"=="1" (
 ) else if "%choice%"=="2" (
     set "SEND_FROM=transparent"
 ) else if "%choice%"=="3" (
-    set "SEND_FROM=z_address"
+    set "SEND_FROM=private"
 ) else if "%choice%"=="0" (
     goto NODEPANEL
 ) else (
@@ -523,21 +509,13 @@ set "choice=%choice: =%"
 
 if "%choice%"=="1" (
     call %SOURCE_FILES%\balances.bat :BALANCES
-)
-
-if "%choice%"=="2" (
+) else if "%choice%"=="2" (
     goto ADDRESSESLISTPANEL
-)
-
-if "%choice%"=="3" (
+) else if "%choice%"=="3" (
     goto NEWADDRESSESPANEL
-)
-
-if "%choice%"=="4" (
+) else if "%choice%"=="4" (
     call %SOURCE_FILES%\importkey.bat
-)
-
-if "%choice%"=="0" (
+) else if "%choice%"=="0" (
     goto NODEPANEL
 ) else (
     echo.
@@ -545,6 +523,8 @@ if "%choice%"=="0" (
     timeout /t 2 /nobreak >nul
     goto WALLETPANEL
 )
+
+goto WALLETPANEL
 
 
 
@@ -574,14 +554,10 @@ set "choice=%choice: =%"
 if "%choice%"=="1" (
     set "ADDRESS_TYPE=transparent"
     call %SOURCE_FILES%\addresseslist.bat :ADDRESSESLIST
-)
-
-if "%choice%"=="2" (
+) else if "%choice%"=="2" (
     set "ADDRESS_TYPE=private"
     call %SOURCE_FILES%\addresseslist.bat :ADDRESSESLIST
-)
-
-if "%choice%"=="0" (
+) else if "%choice%"=="0" (
     goto WALLETPANEL
 ) else (
     echo.
@@ -589,6 +565,8 @@ if "%choice%"=="0" (
     timeout /t 2 /nobreak >nul
     goto ADDRESSESLISTPANEL
 )
+
+goto ADDRESSESLISTPANEL
 
 
 
@@ -619,14 +597,10 @@ set "choice=%choice: =%"
 if "%choice%"=="1" (
     set "ADDRESS_TYPE=transparent"
     call %SOURCE_FILES%\newaddresses.bat :GENERATEADDRESSES
-)
-
-if "%choice%"=="2" (
+) else if "%choice%"=="2" (
     set "ADDRESS_TYPE=private"
     call %SOURCE_FILES%\newaddresses.bat :GENERATEADDRESSES
-)
-
-if "%choice%"=="0" (
+) else if "%choice%"=="0" (
     goto WALLETPANEL
 ) else (
     echo.
@@ -635,6 +609,7 @@ if "%choice%"=="0" (
     goto NEWADDRESSESPANEL
 )
 
+goto NEWADDRESSESPANEL
 
 
 
@@ -668,37 +643,27 @@ if "%choice%"=="1" (
     start "" "https://getbtcz.com"
     timeout /t 2 /nobreak >nul
     goto SOCIALLINKS
-)
-
-if "%choice%"=="2" (
+) else if "%choice%"=="2" (
     echo Opening your default web browser...
     start "" "https://discord.gg/bitcoinz"
     timeout /t 2 /nobreak >nul
     goto SOCIALLINKS
-)
-
-if "%choice%"=="3" (
+) else if "%choice%"=="3" (
     echo Opening your default web browser...
     start "" "https://t.me/btczofficialgroup"
     timeout /t 2 /nobreak >nul
     goto SOCIALLINKS
-)
-
-if "%choice%"=="4" (
+) else if "%choice%"=="4" (
     echo Opening your default web browser...
     start "" "https://twitter.com/BTCZOfficial"
     timeout /t 2 /nobreak >nul
     goto SOCIALLINKS
-)
-
-if "%choice%"=="5" (
+) else if "%choice%"=="5" (
     echo Opening your default web browser...
     start "" "https://reddit.com/r/BTCZCommunity"
     timeout /t 2 /nobreak >nul
     goto SOCIALLINKS
-)
-
-if "%choice%"=="0" (
+) else if "%choice%"=="0" (
     goto MAINMENU
 ) else (
     echo Invalid choice. Please select a valid option.

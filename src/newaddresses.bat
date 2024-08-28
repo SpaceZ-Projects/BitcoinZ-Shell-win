@@ -16,14 +16,11 @@ echo.
 
 if exist "%JSON_DATA_FILE%" del "%JSON_DATA_FILE%"
 
+rem
 if "%ADDRESS_TYPE%"=="transparent" (
-    rem
     start "" /B "%BITCOINZCLI_FILE%" getnewaddress > "%JSON_DATA_FILE%"
     set "ADDRESS_COLOR=%YELLOW_FG%"
-)
-
-if "%ADDRESS_TYPE%"=="private" (
-    rem
+) else if "%ADDRESS_TYPE%"=="private" (
     start "" /B "%BITCOINZCLI_FILE%" z_getnewaddress > "%JSON_DATA_FILE%"
     set "ADDRESS_COLOR=%CYAN_FG%"
 )
@@ -44,7 +41,7 @@ echo  %ADDRESS_COLOR%%NEWADDRESS_INPUT%%RESET%
 echo.
 echo ================================================================================
 
-pause
-
 del "%JSON_DATA_FILE%"
+
+pause
 goto :eof
