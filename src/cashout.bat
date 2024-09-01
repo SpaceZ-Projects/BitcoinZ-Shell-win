@@ -39,6 +39,27 @@ echo ===========================================================================
 echo                             Sending From Main Account
 echo ================================================================================
 echo.
+
+if exist "%JSON_DATA_FILE%" del "%JSON_DATA_FILE%"
+
+rem
+start "" /B "%BITCOINZCLI_FILE%" getbalance > "%JSON_DATA_FILE%"
+
+timeout /t 1 /nobreak >nul
+
+rem
+for /f "usebackq tokens=*" %%i in ("%JSON_DATA_FILE%") do (
+    set "BALANCE=%%i"
+)
+
+rem
+if "%BALANCE%"=="0.00000000" (
+    echo  %RED_FG%Insufficient Balance !%RESET%
+    timeout /t 2 /nobreak >nul
+    goto SENDFROMADDRESS
+)
+
+
 echo  Enter the address you want to send to
 echo.
 echo ==========================
@@ -210,3 +231,150 @@ if "%IS_VALID%"=="true" (
     timeout /t 2 /nobreak >nul
     goto :eof
 )
+
+
+
+:AMOUTTOSEND
+
+cls
+type "%BTCZ_ANS_DIR%\btcz_logo.ans"
+type "%BTCZ_ANS_DIR%\bitcoinz_txt.ans"
+echo.
+echo ^| %BLACK_FG%%YELLOW_BG% CashOut %RESET% ^|
+echo.
+echo ================================================================================
+echo                                      Amount
+echo ================================================================================
+echo.
+echo  Balance : %BALANCE%
+
+echo.
+echo ==========================
+set /p "amounttosend=| %BLACK_FG%%YELLOW_BG% Enter amount %RESET% : "
+
+set "BTCZ_AMOUNT=!amounttosend!"
+
+goto CONFIRMTRANSACTION
+
+
+
+
+:CONFIRMTRANSACTION
+
+cls
+type "%BTCZ_ANS_DIR%\btcz_logo.ans"
+type "%BTCZ_ANS_DIR%\bitcoinz_txt.ans"
+echo.
+echo ^| %BLACK_FG%%YELLOW_BG% CashOut %RESET% ^|
+echo.
+echo ================================================================================
+echo                                 Transaction Review
+echo ================================================================================
+echo.
+
+if "%SEND_FROM%"=="main_account" (
+    echo ^| Sending from : %BLACK_FG%%WHITE_BG% Main Account %RESET%
+) else (
+    echo ^| Sending from : %ADDRESS_COLOR%%SELECTED_ADDRESS%%RESET%
+)
+
+echo ^| Destination : %GREEN_FG%%TOADDRESS%%RESET%
+echo ^| Amount : %BTCZ_AMOUNT% BTCZ
+echo.
+
+echo ^| Do you want to confirm ? (y/n)
+echo ==========================
+set /p choice="| %BLACK_FG%%YELLOW_BG% Enter your choice %RESET% : "
+
+set "choice=%choice: =%"
+
+if /i "%choice%"=="y" (
+    echo.
+    echo  Proccessing...
+    timeout /t 2 /nobreak >nul
+    goto NEWOPERATION
+) else if /i "%choice%"=="n" (
+    echo.
+    echo  Cancelled...
+    timeout /t 2 /nobreak >nul
+    goto :eof
+) else (
+    echo.
+    echo  Invalid choice !
+    timeout /t 2 /nobreak >nul
+    goto CONFIRMTRANSACTION
+)
+
+
+
+
+:NEWOPERATION
+
+setlocal enabledelayedexpansion
+
+cls
+type "%BTCZ_ANS_DIR%\btcz_logo.ans"
+type "%BTCZ_ANS_DIR%\bitcoinz_txt.ans"
+echo.
+echo ^| %BLACK_FG%%YELLOW_BG% CashOut %RESET% ^|
+echo.
+echo ================================================================================
+echo                                 Transaction Result
+echo ================================================================================
+echo.
+
+rem
+if "%SEND_FROM%"=="main_account" (
+    start "" /B "%BITCOINZCLI_FILE%" sendtoaddress "%TOADDRESS%" %BTCZ_AMOUNT% > "%JSON_DATA_FILE%"
+
+    timeout /t 2 /nobreak >nul
+
+    for /f "usebackq tokens=*" %%i in ("%JSON_DATA_FILE%") do (
+        set "RESULT_TXID=%%i"
+    )
+
+    goto DISPLAYRESULT
+) else (
+    start "" /B "%BITCOINZCLI_FILE%" z_sendmany "%SELECTED_ADDRESS%" "[{{\\"address\\": \\"%TOADDRESS%\\", \\"amount\\": %BTCZ_AMOUNT%}}]" 1 > "%JSON_DATA_FILE%"
+
+    timeout /t 2 /nobreak >nul
+
+    for /f "usebackq tokens=*" %%i in ("%JSON_DATA_FILE%") do (
+        set "OPERATION_RESULT=%%i"
+    )
+
+    echo  Operration : %OPERATION_RESULT%
+    echo.
+    pause
+    goto :eof
+)
+
+
+
+
+:DISPLAYRESULT
+
+rem
+start "" /B "%BITCOINZCLI_FILE%" gettransaction "%RESULT_TXID%" > "%JSON_DATA_FILE%"
+
+timeout /t 1 /nobreak >nul
+    
+rem
+for /f "tokens=1,* delims=:" %%A in ('findstr /r /c:"\"amount\":" "%JSON_DATA_FILE%"') do (
+    set "RESULT_AMOUNT=%%B"
+    set "RESULT_AMOUNT=!RESULT_AMOUNT:~1,-1!"
+)
+
+rem
+for /f "tokens=1,* delims=:" %%A in ('findstr /r /c:"\"confirmations\":" "%JSON_DATA_FILE%"') do (
+    set "RESULT_CONFIRMATIONS=%%B"
+    set "RESULT_CONFIRMATIONS=!RESULT_CONFIRMATIONS:~1,-1!"
+)
+
+echo ^| Amount Sent : %RESULT_AMOUNT% BTCZ
+echo ^| Confirmations : %RESULT_CONFIRMATIONS%
+echo ^| Transaction ID : %RESULT_TXID%
+
+pause
+endlocal
+goto :eof
