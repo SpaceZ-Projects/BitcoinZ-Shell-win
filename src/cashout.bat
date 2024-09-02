@@ -310,8 +310,6 @@ if /i "%choice%"=="y" (
 
 :NEWOPERATION
 
-setlocal enabledelayedexpansion
-
 cls
 type "%BTCZ_ANS_DIR%\btcz_logo.ans"
 type "%BTCZ_ANS_DIR%\bitcoinz_txt.ans"
@@ -333,7 +331,7 @@ if "%SEND_FROM%"=="main_account" (
         set "RESULT_TXID=%%i"
     )
 
-    goto DISPLAYRESULT
+    start "Transaction Details" cmd /c "%SOURCE_FILES%\result.bat"
 ) else (
     start "" /B "%BITCOINZCLI_FILE%" z_sendmany "%SELECTED_ADDRESS%" "[{{\\"address\\": \\"%TOADDRESS%\\", \\"amount\\": %BTCZ_AMOUNT%}}]" 1 > "%JSON_DATA_FILE%"
 
@@ -348,33 +346,3 @@ if "%SEND_FROM%"=="main_account" (
     pause
     goto :eof
 )
-
-
-
-
-:DISPLAYRESULT
-
-rem
-start "" /B "%BITCOINZCLI_FILE%" gettransaction "%RESULT_TXID%" > "%JSON_DATA_FILE%"
-
-timeout /t 1 /nobreak >nul
-    
-rem
-for /f "tokens=1,* delims=:" %%A in ('findstr /r /c:"\"amount\":" "%JSON_DATA_FILE%"') do (
-    set "RESULT_AMOUNT=%%B"
-    set "RESULT_AMOUNT=!RESULT_AMOUNT:~1,-1!"
-)
-
-rem
-for /f "tokens=1,* delims=:" %%A in ('findstr /r /c:"\"confirmations\":" "%JSON_DATA_FILE%"') do (
-    set "RESULT_CONFIRMATIONS=%%B"
-    set "RESULT_CONFIRMATIONS=!RESULT_CONFIRMATIONS:~1,-1!"
-)
-
-echo ^| Amount Sent : %RESULT_AMOUNT% BTCZ
-echo ^| Confirmations : %RESULT_CONFIRMATIONS%
-echo ^| Transaction ID : %RESULT_TXID%
-
-pause
-endlocal
-goto :eof
